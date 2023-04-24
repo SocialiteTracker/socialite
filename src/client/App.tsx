@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
-import HelloWorld from './Components/HelloWorld';
 import Login from './Components/Authentication/Login'
+import './style.css';
 
 const App = () => {
   return (
