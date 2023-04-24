@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 
 function Login(){
     return (
@@ -15,7 +16,9 @@ function Login(){
                     <input type="checkbox" defaultChecked={true} name="remember"/> Remember me
                     </label>
                     <div>
-                    <button type="button" className="bg-zinc-600 text-white mt-6 px-3 py-3 hover:opacity-60 cursor-pointer">Create an Account</button>
+                    <Link to="/signup"> 
+                        <button type="button" className="bg-zinc-600 text-white mt-6 px-3 py-3 hover:opacity-60 cursor-pointer">Create an Account</button>
+                    </Link>
                     <span className="float-right pt-[16px]">Forgot <a href="#">password?</a></span>
                     </div>
                     
