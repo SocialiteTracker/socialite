@@ -10,15 +10,15 @@ app.listen(PORT, () => console.log(`server is listening on port ${PORT}`));
 
 // Root
 app.get('/', (req, res) => {
-    // If logged in, direct to homepage
+    // If logged in, direct to homepage - pass through session controller login check
     // Else direct to login
 })
 
 // Login
 app.post('/login', (req, res) => {
-    // Authenticate user
-    // Set cookies
-    // Start session
+    // Authenticate user - pass through usercontroller authenticate middleware
+    // Set cookies - pass through cookie controller create cookie middleware
+    // Start session - pass through session controller start session middleware
 })
 
 // Signup
@@ -27,9 +27,9 @@ app.get('/signup', (req, res) => {
 })
 
 app.post('/signup', (req, res) => {
-    // Create user
-    // Set cookies
-    // Start session
+    // Create user - user controller create user
+    // Set cookies - cookie control create cookie
+    // Start session - session controller start session
 })
 
 // 404: 
