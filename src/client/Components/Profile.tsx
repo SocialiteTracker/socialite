@@ -1,6 +1,8 @@
 import React from 'react'
 import { useState } from 'react';
+
 import AddSocials from './AddSocials'
+import QRCode from './QRCode';
 
 import { socialState } from '../../types'
 
@@ -49,6 +51,7 @@ function Profile(){
                 </div>
             )}
             <AddSocials socials={socials} addNewSocialMediaToState={addSocialMedia} />
+            <QRCode />
         </div>
     )
 }

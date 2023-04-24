@@ -25,6 +25,7 @@ function AddSocials(props: addSocialsProps){
                     url: newUrl
                 }])}>Add Social</button>
             </div>
+            
         </>
     )
 }
