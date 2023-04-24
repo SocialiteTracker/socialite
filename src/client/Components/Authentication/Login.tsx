@@ -21,9 +21,11 @@ function Login(){
                     </Link>
                     <span className="float-right pt-[16px]">Forgot <a href="#">password?</a></span>
                     </div>
-                    
                 </div>
             </form> 
+            <Link to="/profile"> 
+            <button type="submit" className="bg-blue-800 ml-[65px] text-white text-2xl mt-10 hover:opacity-60 cursor-pointer w-[15%]">Test</button>
+            </Link>
         </div>
     )
 }
