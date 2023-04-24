@@ -1,11 +1,12 @@
 import React from 'react';
 import { render } from 'react-dom';
 import HelloWorld from './Components/HelloWorld';
+import Login from './Components/Authentication/Login'
 
 const App = () => {
   return (
     <div>
-      <HelloWorld />
+      <Login />
     </div>
   );
 }
