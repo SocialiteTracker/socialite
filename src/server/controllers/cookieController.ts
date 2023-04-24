@@ -1,1 +1,3 @@
-const cookieController = {};
+type cookieController = {
+    setCookies: () => {}
+};

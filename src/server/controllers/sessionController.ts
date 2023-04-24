@@ -1,4 +1,6 @@
 // require in session model
 
-const sessionController = {};
-
+type SessionController = {
+    checkLogin: () => {},
+    startSession: () => {}
+};
