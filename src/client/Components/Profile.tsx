@@ -51,7 +51,7 @@ function Profile(){
                 </div>
             )}
             <AddSocials socials={socials} addNewSocialMediaToState={addSocialMedia} />
-            <QRCode />
+            <QRCode targetUrl={"https://www.codesmith.io/"}/>
         </div>
     )
 }
