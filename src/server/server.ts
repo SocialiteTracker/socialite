@@ -49,7 +49,7 @@ app.listen(PORT, () => console.log(`server is listening on port ${PORT}`));
 // })
 
 //getSocialMedias// send social_name & social_value
-app.get('/getAllSocials', dbController.getAllSocials, (req: Request, res: Response) => {
+app.get('/api/getAllSocials', dbController.getAllSocials, (req: Request, res: Response) => {
     return res.status(200).json(res.locals.socials);
 });
 
