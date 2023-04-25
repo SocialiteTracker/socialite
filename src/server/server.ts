@@ -7,6 +7,7 @@ app.use(cookieParser());
 import UserController from './controllers/userController';
 import SessionController from './controllers/sessionController';
 import CookieController from './controllers/cookieController';
+const dbController = require("./controllers/dbController");
 
 import { Request, Response, NextFunction } from 'express';
 
@@ -49,9 +50,9 @@ app.post('/signup', UserController.createUser, CookieController.setCookies, Sess
     // Start session - session controller start session
 })
 
-//Save the state containing SocialMedia & URL
-app.post('/socialMedia', (req, res) => {
-    
+//Save the state containing SocialMedia & URL to db 
+app.post('/socialMedia', SessionController.checkLogin, dbController.saveSocialMedia, (req: Request, res: Response) => {
+    return res.sendStatus(200);
 })
 
 // 404: 
