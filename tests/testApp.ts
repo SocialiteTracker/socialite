@@ -4,8 +4,6 @@ app.use(express.json());
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
-const PORT = 3000;
-
 // Root
 app.get('/', (req, res) => {
     // If logged in, direct to homepage - pass through session controller login check
@@ -41,7 +39,5 @@ app.use((err, req, res, next) => {
     console.log(err);
     res.status(500).send({ error: err });
 });
-
-app.listen(PORT, () => console.log(`server is listening on port ${PORT}`));
 
 module.exports = app;
