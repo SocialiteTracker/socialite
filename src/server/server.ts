@@ -60,6 +60,10 @@ app.delete('/socialMedia', SessionController.checkLogin, dbController.deleteSoci
     return res.sendStatus(200);
 })
 
+//getSocialMedias
+app.get('/socialMedia', SessionController.checkLogin, dbController.getSocialMedias, (req: Request, res: Response) => {
+    return res.sendStatus(200);
+})
 
 // 404: 
 app.use('*', (req, res) => {

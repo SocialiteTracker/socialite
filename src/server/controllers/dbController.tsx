@@ -34,6 +34,15 @@ const dbController = {
             }
         })
     }
+    },
+    getSocialMedias : async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            // find the user in the user table
+            // use the user id to find all the 
+        }catch {
+
+        }
     }
+
 }
 module.exports = dbController;
