@@ -4,6 +4,9 @@ const pool = require('../config/connect')
 
 import { Request, Response, NextFunction } from 'express';
 
+// TO DO HERE:
+// [x] Move redirect out of middleware and into '/' route
+// [ ] Pass cookie/user ID in res.locals
 class SessionController {
     constructor() { }
 
@@ -20,14 +23,14 @@ class SessionController {
         // If not, redirect to login page
         pool.query(findCookie, [])
             .then((response: string) => {
-                if (!response.length) {
-                    console.log('cookie not found!')
-                    next();
+                if (response.length) {
+                    res.locals.isCookie = true;
                 } else {
-                    res.redirect(301, '/profile');
+                    res.locals.isCookie = false;
                 }
+                
             })
-        next();
+        return next();
     }
 
     startSession = (req: Request, res: Response, next: NextFunction) => {
