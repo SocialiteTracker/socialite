@@ -55,6 +55,12 @@ app.post('/socialMedia', SessionController.checkLogin, dbController.saveSocialMe
     return res.sendStatus(200);
 })
 
+//delete the link in the links table for user
+app.delete('/socialMedia', SessionController.checkLogin, dbController.deleteSocialMedia, (req: Request, res: Response) => {
+    return res.sendStatus(200);
+})
+
+
 // 404: 
 app.use('*', (req, res) => {
     res.status(404).send('Not Found');
