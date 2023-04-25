@@ -1,19 +1,33 @@
 import express from 'express';
 const app = express();
 app.use(express.json());
-const cookieParser = require('cookie-parser');
+import cookieParser from 'cookie-parser';
 app.use(cookieParser());
+
+import UserController from './controllers/userController';
+import SessionController from './controllers/sessionController';
+import CookieController from './controllers/cookieController';
+
+import { Request, Response, NextFunction } from 'express';
+
 
 const PORT = 3000;
 
 // Root
-app.get('/', (req, res) => {
+app.get('/', SessionController.checkLogin, (req: Request, res: Response) => {
+    console.log('get req to root')
     // If logged in, direct to homepage - pass through session controller login check
     // Else direct to login
 })
 
 // Login
-app.post('/login', (req, res) => {
+app.get('/login', (req, res) => {
+    console.log('get to login')
+    // serve login page
+})
+
+app.post('/login', UserController.authenticateUser, CookieController.setCookies, SessionController.startSession, (req, res) => {
+    console.log('post to login')
     // Authenticate user - pass through usercontroller authenticate middleware
     // Set cookies - pass through cookie controller create cookie middleware
     // Start session - pass through session controller start session middleware
@@ -21,10 +35,13 @@ app.post('/login', (req, res) => {
 
 // Signup
 app.get('/signup', (req, res) => {
+    console.log('get to signup');
     // Serve signup page
 })
 
-app.post('/signup', (req, res) => {
+app.post('/signup', UserController.createUser, CookieController.setCookies, SessionController.startSession, (req, res) => {
+    //app.post('/signup', (req, res) => {
+    console.log('post to signup')
     // Create user - user controller create user
     // Set cookies - cookie control create cookie
     // Start session - session controller start session
@@ -33,6 +50,7 @@ app.post('/signup', (req, res) => {
 // 404: 
 app.use('*', (req, res) => {
     res.status(404).send('Not Found');
+    console.log('404')
 });
 
 // Global error handler: Not sure how to do this in Typescript!
@@ -40,6 +58,7 @@ app.use('*', (req, res) => {
 app.use((err, req, res, next) => {
     console.log(err);
     res.status(500).send({ error: err });
+    console.log('global error')
 });
 
 app.listen(PORT, () => console.log(`server is listening on port ${PORT}`));
