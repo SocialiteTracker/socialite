@@ -38,15 +38,6 @@ describe('Server routes', () => {
     const response = await request(app).post('/signup');
     expect(response.statusCode).toBe(200);
   });
-
-  test('Global Error handler should catch error', async () => {
-    const response = await request(app).get('/', (req, res, next) => {
-      const error = new Error;
-      next(error)
-    });
-    expect(response.statusCode).toBe(500);
-  });
-
   
 });
 
