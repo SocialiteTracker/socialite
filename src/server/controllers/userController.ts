@@ -1,6 +1,6 @@
 // Require in user data model
 const bcrypt = require('bcrypt');
-const db = require('data placeholder')
+const pool = require('../config/connect')
 
 import { Request, Response, NextFunction } from 'express';
 
@@ -19,7 +19,7 @@ class UserController {
 
         const findUser = 'SELECT * FROM users WERE username = user && password = pw';
 
-        db.query(findUser, [])
+        pool.query(findUser, [])
             .then((response: string) => {
                 if (response.length) {
                     return next();

@@ -1,6 +1,6 @@
 // require in session model
 
-const db = require('data placeholder')
+const pool = require('../config/connect')
 
 import { Request, Response, NextFunction } from 'express';
 
@@ -18,7 +18,7 @@ class SessionController {
 
         // if we get a response from query return next()
         // If not, redirect to login page
-        db.query(findCookie, [])
+        pool.query(findCookie, [])
             .then((response: string) => {
                 if (!response.length) {
                     console.log('cookie not found!')
