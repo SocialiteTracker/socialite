@@ -1,9 +1,8 @@
 import React from 'react'
 import { useState } from 'react';
+import { Link } from "react-router-dom";
 
 import AddSocials from './AddSocials'
-import QRCode from './QRCode';
-
 import { socialState } from '../../types'
 
 //Giles
@@ -44,14 +43,18 @@ function Profile(){
     console.log("generating profile");
     return (
         <div>
-            <p className="text-4xl text-center font-medium mt-4 mb-10"> Socials: </p>
+            <div className="flex justify-center mb-10 mt-4" > 
+                <p className="text-4xl font-medium"> Socials </p>
+                <Link to="/shareprofile" className="ml-5"> 
+                    <img src="http://cdn.onlinewebfonts.com/svg/img_523454.png" className="w-10"></img>
+                </Link>
+            </div>
             {socials.map((social)=>
                 <div className="my-5">
                     <p className="block text-2xl text-black text-center my-10">{social.socialMedia}: <a href={social.url} className="text-blue-800">{social.url}</a></p>
                 </div>
             )}
             <AddSocials socials={socials} addNewSocialMediaToState={addSocialMedia} />
-            <QRCode targetUrl={"https://www.codesmith.io/"}/>
         </div>
     )
 }
