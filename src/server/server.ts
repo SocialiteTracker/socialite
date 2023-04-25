@@ -8,6 +8,7 @@ app.use(cookieParser());
 import UserController from './controllers/userController';
 import SessionController from './controllers/sessionController';
 import CookieController from './controllers/cookieController';
+const dbController = require("./controllers/dbController");
 
 import { Request, Response, NextFunction } from 'express';
 
@@ -44,6 +45,21 @@ app.post('/signup', UserController.createUser, CookieController.setCookies, Sess
     // Create user - user controller create user
     // Set cookies - cookie control create cookie
     // Start session - session controller start session
+})
+
+//Save the state containing SocialMedia & URL to db 
+app.post('/socialMedia', SessionController.checkLogin, dbController.saveSocialMedia, (req: Request, res: Response) => {
+    return res.sendStatus(200);
+})
+
+//delete the link in the links table for user
+app.delete('/socialMedia', SessionController.checkLogin, dbController.deleteSocialMedia, (req: Request, res: Response) => {
+    return res.sendStatus(200);
+})
+
+//getSocialMedias
+app.get('/socialMedia', SessionController.checkLogin, dbController.getSocialMedias, (req: Request, res: Response) => {
+    return res.sendStatus(200);
 })
 
 // 404: 
