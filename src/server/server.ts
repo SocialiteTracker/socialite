@@ -19,7 +19,8 @@ app.listen(PORT, () => console.log(`server is listening on port ${PORT}`));
 // // Root - Checks session and directs to profile if extant 
 // // By default go to login, but if session redirect to profile
 // app.get('/', SessionController.checkLogin, (req: Request, res: Response) => {
-//     console.log('get req to root')
+//     console.log('get req to root');
+
 //     if (res.locals.isCookie === true) {
 //         res.redirect(301, '/profile');
 //     }
