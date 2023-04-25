@@ -13,7 +13,7 @@ const App = () => {
     <>
       <BrowserRouter>
         <Switch>
-          <Route exact path="/" component={Profile} />
+          <Route exact path="/" component={Login} />
           <Route path="/signup" component={Signup} />
           <Route path="/profile" component={Profile} />
           <Route path="/shareprofile" component={ShareProfile} />
