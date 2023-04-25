@@ -1,4 +1,5 @@
 import express from 'express';
+const path = require('path');
 const app = express();
 app.use(express.json());
 import cookieParser from 'cookie-parser';
@@ -7,30 +8,29 @@ app.use(cookieParser());
 import UserController from './controllers/userController';
 import SessionController from './controllers/sessionController';
 import CookieController from './controllers/cookieController';
+const dbController = require("./controllers/dbController");
 
 import { Request, Response, NextFunction } from 'express';
 
 
 const PORT = 3000;
 
-// Root
+app.listen(PORT, () => console.log(`server is listening on port ${PORT}`));
+
+// Root - Checks session and directs to profile if extant 
+// By default go to login, but if session redirect to profile
 app.get('/', SessionController.checkLogin, (req: Request, res: Response) => {
     console.log('get req to root')
-    // If logged in, direct to homepage - pass through session controller login check
-    // Else direct to login
 })
 
 // Login
 app.get('/login', (req, res) => {
     console.log('get to login')
-    // serve login page
 })
 
 app.post('/login', UserController.authenticateUser, CookieController.setCookies, SessionController.startSession, (req, res) => {
     console.log('post to login')
-    // Authenticate user - pass through usercontroller authenticate middleware
-    // Set cookies - pass through cookie controller create cookie middleware
-    // Start session - pass through session controller start session middleware
+    res.redirect(301, '/profile')
 })
 
 // Signup
@@ -45,6 +45,21 @@ app.post('/signup', UserController.createUser, CookieController.setCookies, Sess
     // Create user - user controller create user
     // Set cookies - cookie control create cookie
     // Start session - session controller start session
+})
+
+//Save the state containing SocialMedia & URL to db 
+app.post('/socialMedia', SessionController.checkLogin, dbController.saveSocialMedia, (req: Request, res: Response) => {
+    return res.sendStatus(200);
+})
+
+//delete the link in the links table for user
+app.delete('/socialMedia', SessionController.checkLogin, dbController.deleteSocialMedia, (req: Request, res: Response) => {
+    return res.sendStatus(200);
+})
+
+//getSocialMedias
+app.get('/socialMedia', SessionController.checkLogin, dbController.getSocialMedias, (req: Request, res: Response) => {
+    return res.sendStatus(200);
 })
 
 // 404: 
