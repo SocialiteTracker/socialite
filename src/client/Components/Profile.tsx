@@ -37,7 +37,6 @@ function Profile(){
     //adds new social media to database
     function addSocialMedia(newState: socialState[]){
         setSocials(newState);
-
         //TODO - add new social media to database
         //TODO - generate new QR code
     }

@@ -7,7 +7,7 @@ function ShowSocials(props: {socials: socialState[]}){
         <>
             {props.socials.map((social: socialState)=>
                 <div className="my-5">
-                    <p className="block text-2xl text-black text-center my-10">{social.socialMedia}: <a href={social.url} className="text-blue-800">{social.url}</a></p>
+                    <p className="block sm:text-2xl text-xl text-black text-center my-10">{social.socialMedia}: <a href={social.url} className="text-blue-800">{social.url}</a></p>
                 </div>
             )}
         </>
