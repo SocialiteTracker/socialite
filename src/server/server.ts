@@ -49,6 +49,11 @@ app.post('/signup', UserController.createUser, CookieController.setCookies, Sess
     // Start session - session controller start session
 })
 
+//Save the state containing SocialMedia & URL
+app.post('/socialMedia', (req, res) => {
+    
+})
+
 // 404: 
 app.use('*', (req, res) => {
     res.status(404).send('Not Found');
