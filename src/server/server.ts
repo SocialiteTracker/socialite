@@ -26,10 +26,10 @@ app.listen(PORT, () => console.log(`server is listening on port ${PORT}`));
 //     }
 // })
 
-// app.post('/login', UserController.authenticateUser, CookieController.setCookies, SessionController.startSession, (req, res) => {
-//     console.log('post to login')
-//     res.redirect(301, '/profile')
-// })
+app.post('/login', UserController.authenticateUser, CookieController.setCookies, SessionController.startSession, (req, res) => {
+    if(res.locals.valid === false) res.redirect(301, '/signup');
+    else res.sendStatus(200);
+})
 
 // app.post('/signup', UserController.createUser, CookieController.setCookies, SessionController.startSession, (req, res) => {
 //     console.log('post to signup')
