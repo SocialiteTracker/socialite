@@ -7,6 +7,7 @@ module.exports = {
   entry: './src/client/App.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
+    publicPath: "/",
     filename: 'bundle.js',
   },
   module: {
@@ -53,6 +54,7 @@ module.exports = {
     }),
   ],
   devServer: {
+    historyApiFallback: true,
     static: {
       directory: path.join(__dirname, './dist'),
     },
