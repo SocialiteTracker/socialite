@@ -1,4 +1,5 @@
 import express from 'express';
+const path = require('path');
 const app = express();
 app.use(express.json());
 import cookieParser from 'cookie-parser';
@@ -15,17 +16,16 @@ const PORT = 3000;
 
 app.listen(PORT, () => console.log(`server is listening on port ${PORT}`));
 
-// Root
+// Root - Checks session and directs to profile if extant 
 app.get('/', SessionController.checkLogin, (req: Request, res: Response) => {
     console.log('get req to root')
-    // If logged in, direct to homepage - pass through session controller login check
-    // Else direct to login
+    // End result - send to profile - how to do w/ React Router?
 })
 
 // Login
 app.get('/login', (req, res) => {
     console.log('get to login')
-    // serve login page
+    // End result - send to login - how to do w/ React Router?
 })
 
 app.post('/login', UserController.authenticateUser, CookieController.setCookies, SessionController.startSession, (req, res) => {
