@@ -6,7 +6,7 @@ function UserInfo(){
 
     const { username } = useParams<{ username: string }>();
 
-    //Make database call here to get info about user
+    //Make database call here to get links from user attaching username to body of post request
     //Giles
     function getUserLinks(){
     }
