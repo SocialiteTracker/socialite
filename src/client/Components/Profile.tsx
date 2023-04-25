@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import AddSocials from './AddSocials'
 import ShowSocials from './ShowSocials';
@@ -17,14 +17,6 @@ const dummyData = [
     {
         socialMedia: "Instagram",
         url: "https://www.instagram.com/knakwjasd"
-    },
-    {
-        socialMedia: "Twitter",
-        url: "https://www.twitter.com/aasda1gewadw"
-    },
-    {
-        socialMedia: "Facebook",
-        url: "https://www.facebook.com/aswmmo2929"
     }
 ]
 
@@ -40,6 +32,16 @@ function Profile(){
         //TODO - add new social media to database
         //TODO - generate new QR code
     }
+
+    useEffect(()=>{
+        console.log("getting socialMedia")
+        fetch('/getAllSocials')
+        .then(data=>data.json())
+        .then(data=>{
+            console.log(data);
+            setSocials(data);
+        });
+    },[])
     
     return (
         <div>
