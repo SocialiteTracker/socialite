@@ -20,12 +20,11 @@ app.listen(PORT, () => console.log(`server is listening on port ${PORT}`));
 // Root - Checks session and directs to profile if extant 
 // By default go to login, but if session redirect to profile
 app.get('/', SessionController.checkLogin, (req: Request, res: Response) => {
-    console.log('get req to root')
-})
+    console.log('get req to root');
 
-// Login
-app.get('/login', (req, res) => {
-    console.log('get to login')
+    if (res.locals.isCookie === true) {
+        res.redirect(301, '/profile');
+    }
 })
 
 app.post('/login', UserController.authenticateUser, CookieController.setCookies, SessionController.startSession, (req, res) => {
@@ -33,14 +32,7 @@ app.post('/login', UserController.authenticateUser, CookieController.setCookies,
     res.redirect(301, '/profile')
 })
 
-// Signup
-app.get('/signup', (req, res) => {
-    console.log('get to signup');
-    // Serve signup page
-})
-
 app.post('/signup', UserController.createUser, CookieController.setCookies, SessionController.startSession, (req, res) => {
-    //app.post('/signup', (req, res) => {
     console.log('post to signup')
     // Create user - user controller create user
     // Set cookies - cookie control create cookie
