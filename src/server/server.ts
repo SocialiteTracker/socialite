@@ -12,55 +12,46 @@ const dbController = require("./controllers/dbController");
 
 import { Request, Response, NextFunction } from 'express';
 
-
 const PORT = 3000;
 
 app.listen(PORT, () => console.log(`server is listening on port ${PORT}`));
 
-// Root - Checks session and directs to profile if extant 
-// By default go to login, but if session redirect to profile
-app.get('/', SessionController.checkLogin, (req: Request, res: Response) => {
-    console.log('get req to root')
-})
+// // Root - Checks session and directs to profile if extant 
+// // By default go to login, but if session redirect to profile
+// app.get('/', SessionController.checkLogin, (req: Request, res: Response) => {
+//     console.log('get req to root');
 
-// Login
-app.get('/login', (req, res) => {
-    console.log('get to login')
-})
+//     if (res.locals.isCookie === true) {
+//         res.redirect(301, '/profile');
+//     }
+// })
 
-app.post('/login', UserController.authenticateUser, CookieController.setCookies, SessionController.startSession, (req, res) => {
-    console.log('post to login')
-    res.redirect(301, '/profile')
-})
+// app.post('/login', UserController.authenticateUser, CookieController.setCookies, SessionController.startSession, (req, res) => {
+//     console.log('post to login')
+//     res.redirect(301, '/profile')
+// })
 
-// Signup
-app.get('/signup', (req, res) => {
-    console.log('get to signup');
-    // Serve signup page
-})
+// app.post('/signup', UserController.createUser, CookieController.setCookies, SessionController.startSession, (req, res) => {
+//     console.log('post to signup')
+//     // Create user - user controller create user
+//     // Set cookies - cookie control create cookie
+//     // Start session - session controller start session
+// })
 
-app.post('/signup', UserController.createUser, CookieController.setCookies, SessionController.startSession, (req, res) => {
-    //app.post('/signup', (req, res) => {
-    console.log('post to signup')
-    // Create user - user controller create user
-    // Set cookies - cookie control create cookie
-    // Start session - session controller start session
-})
+// //Save the state containing SocialMedia & URL to db 
+// app.post('/socialMedia', SessionController.checkLogin, dbController.saveSocialLink, (req: Request, res: Response) => {
+//     return res.sendStatus(200);
+// })
 
-//Save the state containing SocialMedia & URL to db 
-app.post('/socialMedia', SessionController.checkLogin, dbController.saveSocialMedia, (req: Request, res: Response) => {
-    return res.sendStatus(200);
-})
+// //delete the link in the links table for user
+// app.delete('/socialMedia', SessionController.checkLogin, dbController.deleteSocialLink, (req: Request, res: Response) => {
+//     return res.sendStatus(200);
+// })
 
-//delete the link in the links table for user
-app.delete('/socialMedia', SessionController.checkLogin, dbController.deleteSocialMedia, (req: Request, res: Response) => {
-    return res.sendStatus(200);
-})
-
-//getSocialMedias
-app.get('/socialMedia', SessionController.checkLogin, dbController.getSocialMedias, (req: Request, res: Response) => {
-    return res.sendStatus(200);
-})
+//getSocialMedias// send social_name & social_value
+app.get('/getAllSocials', dbController.getAllSocials, (req: Request, res: Response) => {
+    return res.status(200).json(res.locals.socials);
+});
 
 // 404: 
 app.use('*', (req, res) => {

@@ -7,27 +7,27 @@ module.exports = {
   entry: './src/client/App.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    publicPath: "/",
+    publicPath: '/',
     filename: 'bundle.js',
   },
   module: {
     rules: [
       {
         test: /\.css$/,
-        use : [
-            {
-              loader: 'style-loader',
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
             },
-            {
-                loader: 'css-loader',
-                options: {
-                sourceMap: true,
-              }
-            },
-            {
-              loader: 'postcss-loader'
-            }
-        ]
+          },
+          {
+            loader: 'postcss-loader',
+          },
+        ],
       },
       {
         test: /\.(js|jsx)$/,
@@ -38,11 +38,11 @@ module.exports = {
         test: /\.tsx?$/,
         use: 'ts-loader',
         exclude: /node_modules/,
-      }
+      },
     ],
   },
   resolve: {
-    extensions: ['.jsx', '.js','.ts','.tsx'],
+    extensions: ['.jsx', '.js', '.ts', '.tsx'],
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -59,9 +59,8 @@ module.exports = {
       directory: path.join(__dirname, './dist'),
     },
     proxy: {
-      '/api': 'http://localhost:3000',
-      secure: false
-    }
+      '/': 'http://localhost:3000',
+      secure: false,
+    },
   },
-
-}
+};
