@@ -17,22 +17,19 @@ const PORT = 3000;
 app.listen(PORT, () => console.log(`server is listening on port ${PORT}`));
 
 // Root - Checks session and directs to profile if extant 
+// By default go to login, but if session redirect to profile
 app.get('/', SessionController.checkLogin, (req: Request, res: Response) => {
     console.log('get req to root')
-    // End result - send to profile - how to do w/ React Router?
 })
 
 // Login
 app.get('/login', (req, res) => {
     console.log('get to login')
-    // End result - send to login - how to do w/ React Router?
 })
 
 app.post('/login', UserController.authenticateUser, CookieController.setCookies, SessionController.startSession, (req, res) => {
     console.log('post to login')
-    // Authenticate user - pass through usercontroller authenticate middleware
-    // Set cookies - pass through cookie controller create cookie middleware
-    // Start session - pass through session controller start session middleware
+    res.redirect(301, '/profile')
 })
 
 // Signup

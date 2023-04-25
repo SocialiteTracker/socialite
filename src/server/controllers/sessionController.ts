@@ -8,7 +8,7 @@ class SessionController {
     constructor() { }
 
     checkLogin = (req: Request, res: Response, next: NextFunction) => {
-        // console.log('in checkLogin middleware');
+        console.log('in checkLogin middleware');
 
         // Create variable for cookie held in request:
         const cookie = req.cookies.ssid;
@@ -20,10 +20,11 @@ class SessionController {
         // If not, redirect to login page
         db.query(findCookie, [])
             .then((response: string) => {
-                if (response.length) {
-                    return next();
+                if (!response.length) {
+                    console.log('cookie not found!')
+                    next();
                 } else {
-                    res.redirect(301, '/login'); // <-- Does this work w. React Router?
+                    res.redirect(301, '/profile');
                 }
             })
         next();
