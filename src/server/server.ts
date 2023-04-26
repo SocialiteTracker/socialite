@@ -17,17 +17,24 @@ const PORT = 3000;
 
 app.listen(PORT, () => console.log(`server is listening on port ${PORT}`));
 
-// // Root - Checks session and directs to profile if extant 
-// // By default go to login, but if session redirect to profile
-//TODO - maybe we can check to see if session exists here but do redirect on frontend?
-app.get('/api/home', SessionController.checkLogin, (req: Request, res: Response) => {
-    console.log("requesting endpoint");
-    if(res.locals.authenticated) res.redirect(301, '/profile');
-    else{
-        console.log('redirecting')
-        res.redirect(301, '/');
-    }
-});
+//TODO - some issues with this 
+//react router doesn't make a get request to localhost:3000 but only to localhost:8080 (bc of proxy )
+//we can either 
+// A) handle authentication here but redirection on frontend 
+// or 
+// B) in frontend have a way to force some get request to this endpoint 
+// lets discuss tomorrow :)
+//-Giles
+
+// app.get('/', SessionController.checkLogin, (req: Request, res: Response) => {
+//     console.log("requesting endpoint");
+//     console.log("authenticated: ", res.locals.authenticated);
+//     if(res.locals.authenticated) res.redirect(301, '/profile');
+//     else{
+//         console.log('redirecting')
+//         res.redirect(301, '/');
+//     }
+// });
 
 app.post('/api/login', UserController.authenticateUser, CookieController.setCookies, SessionController.startSession, (req, res) => {
     if(res.locals.authenticated) res.redirect(301, '/profile');

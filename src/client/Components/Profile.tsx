@@ -33,10 +33,6 @@ function Profile(){
         //TODO - generate new QR code
     }
 
-    // useEffect(()=>{
-    //     fetch('/api/home');
-    // },[])
-
     useEffect(()=>{
         console.log("getting socialMedia")
         fetch('/api/getAllSocials')

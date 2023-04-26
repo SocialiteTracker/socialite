@@ -8,7 +8,6 @@ const SessionController = {
     checkLogin: async (req: Request, res: Response, next: NextFunction) => {
 
         const userId = req.cookies.userId; //pull userId from request body
-        console.log("userID",userId);
 
         // implement later 
         const findCookie = 'SELECT * FROM cookies WHERE user_id=$1';
