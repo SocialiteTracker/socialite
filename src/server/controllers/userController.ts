@@ -39,15 +39,14 @@ const UserController  = {
         const username = req.body.username;
         const password = req.body.password;
 
-        const findUser = 'SELECT * FROM users WERE username = $1 && password = $2';
+        const findUser = 'SELECT * FROM users WHERE username = $1 AND password = $2';
         const values = [username,password];
 
         const response = await pool.query(findUser, values);
         const user = response.rows;
-        if(user.length > 0){ //user exists 
-            return next();
-        }
-        else res.locals.valid = false; //user does not exist
+        if(user.length > 0) res.locals.authenticated = true; //user exists
+        else res.locals.authenticated = false; //user does not exist
+        return next();
     } 
 };
 
