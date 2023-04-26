@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 
 import AddSocials from './AddSocials'
 import ShowSocials from './ShowSocials';
@@ -34,19 +35,23 @@ function Profile(){
     }
 
     useEffect(()=>{
-        console.log("getting socialMedia")
-        fetch('/api/getAllSocials')
-        .then(data=>data.json())
-        .then(data=>{
-
-            const newSocialState = data.map((el: dbResponse)=>{
-                return {
-                    socialMedia: el.social_name,
-                    url: el.social_value
-                }
-            })
-            setSocials(newSocialState);
-        });
+        //check to see if user has a cookie
+        if(!Cookies.get('userId')){
+            location.replace("/");
+        }
+        else{
+            fetch('/api/getAllSocials')
+            .then(data=>data.json())
+            .then(data=>{
+                const newSocialState = data.map((el: dbResponse)=>{
+                    return {
+                        socialMedia: el.social_name,
+                        url: el.social_value
+                    }
+                })
+                setSocials(newSocialState);
+            });
+        }
     },[])
     
     return (

@@ -46,10 +46,9 @@ const dbController = {
     },
     getAllSocials : async (req: Request, res: Response, next: NextFunction) => {
         try {
-            //uncomment once session middleware added
-            // const { user_id } = req.body;
             
-            const user_id = 7;
+            const user_id = req.cookies.userId
+
             // parameterized query to avoid sql injection vulnerabilities
             const text = 'SELECT social_name, social_value FROM SOCIALS WHERE user_id=$1';
             const values = [user_id];
