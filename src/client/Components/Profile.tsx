@@ -1,10 +1,10 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import AddSocials from './AddSocials'
 import ShowSocials from './ShowSocials';
 import Header from './Header';
-import { socialState } from '../../types'
+import { socialState, dbResponse } from '../../types'
 
 //Giles
 //to test the frontend
@@ -17,14 +17,6 @@ const dummyData = [
     {
         socialMedia: "Instagram",
         url: "https://www.instagram.com/knakwjasd"
-    },
-    {
-        socialMedia: "Twitter",
-        url: "https://www.twitter.com/aasda1gewadw"
-    },
-    {
-        socialMedia: "Facebook",
-        url: "https://www.facebook.com/aswmmo2929"
     }
 ]
 
@@ -40,6 +32,22 @@ function Profile(){
         //TODO - add new social media to database
         //TODO - generate new QR code
     }
+
+    useEffect(()=>{
+        console.log("getting socialMedia")
+        fetch('/api/getAllSocials')
+        .then(data=>data.json())
+        .then(data=>{
+
+            const newSocialState = data.map((el: dbResponse)=>{
+                return {
+                    socialMedia: el.social_name,
+                    url: el.social_value
+                }
+            })
+            setSocials(newSocialState);
+        });
+    },[])
     
     return (
         <div>

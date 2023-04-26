@@ -1,38 +1,35 @@
 // require in session model
-
 const pool = require('../config/connect')
 
 import { Request, Response, NextFunction } from 'express';
 
-class SessionController {
-    constructor() { }
+const SessionController = {
 
-    checkLogin = (req: Request, res: Response, next: NextFunction) => {
-        console.log('in checkLogin middleware');
+    checkLogin: async (req: Request, res: Response, next: NextFunction) => {
 
-        // Create variable for cookie held in request:
-        const cookie = req.cookies.ssid;
+        const userId = req.cookies.userId; //pull userId from request body
 
-        // Search the Cookie table for an existing cookie that matches user's:
-        const findCookie = 'SELECT * FROM cookies WHERE id = cookie'
+        // implement later 
+        const findCookie = 'SELECT * FROM cookies WHERE user_id=$1';
+        const values = [userId];
+        const response = await pool.query(findCookie, values);
+        const cookie = response.rows;
 
-        // if we get a response from query return next()
-        // If not, redirect to login page
-        pool.query(findCookie, [])
-            .then((response: string) => {
-                if (!response.length) {
-                    console.log('cookie not found!')
-                    next();
-                } else {
-                    res.redirect(301, '/profile');
-                }
-            })
-        next();
-    }
+        if(cookie.length > 0) res.locals.authenticated = true; //current session 
+        else res.locals.authenticated = false; //no current session 
 
-    startSession = (req: Request, res: Response, next: NextFunction) => {
-        console.log('in startSession middleware')
+        return next();
+    },
+
+    startSession: async (req: Request, res: Response, next: NextFunction) => {
+
+        if(res.locals.authenticated){
+            const addCookie = 'INSERT INTO cookies (created_at,user_id) VALUES ($1,$2)';
+            const values = [new Date().toTimeString().split(' ')[0],res.locals.userId];
+            const response = await pool.query(addCookie, values);   
+        }
+        return next();
     }
 };
 
-export default new SessionController();
+export default SessionController;
