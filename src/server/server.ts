@@ -4,6 +4,7 @@ const app = express();
 app.use(express.json());
 import cookieParser from 'cookie-parser';
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 
 import UserController from './controllers/userController';
 import SessionController from './controllers/sessionController';
@@ -16,27 +17,35 @@ const PORT = 3000;
 
 app.listen(PORT, () => console.log(`server is listening on port ${PORT}`));
 
-// // Root - Checks session and directs to profile if extant 
-// // By default go to login, but if session redirect to profile
+//TODO - some issues with this 
+//react router doesn't make a get request to localhost:3000 but only to localhost:8080 (bc of proxy )
+//we can either 
+// A) handle authentication here but redirection on frontend 
+// or 
+// B) in frontend have a way to force some get request to this endpoint 
+// lets discuss tomorrow :)
+//-Giles
+
 // app.get('/', SessionController.checkLogin, (req: Request, res: Response) => {
-//     console.log('get req to root');
-
-//     if (res.locals.isCookie === true) {
-//         res.redirect(301, '/profile');
+//     console.log("requesting endpoint");
+//     console.log("authenticated: ", res.locals.authenticated);
+//     if(res.locals.authenticated) res.redirect(301, '/profile');
+//     else{
+//         console.log('redirecting')
+//         res.redirect(301, '/');
 //     }
-// })
+// });
 
-// app.post('/login', UserController.authenticateUser, CookieController.setCookies, SessionController.startSession, (req, res) => {
-//     console.log('post to login')
-//     res.redirect(301, '/profile')
-// })
+app.post('/api/login', UserController.authenticateUser, CookieController.setCookies, SessionController.startSession, (req, res) => {
+    if(res.locals.authenticated) res.redirect(301, '/profile');
+    else res.redirect(301, '/');
+});
 
-// app.post('/signup', UserController.createUser, CookieController.setCookies, SessionController.startSession, (req, res) => {
-//     console.log('post to signup')
-//     // Create user - user controller create user
-//     // Set cookies - cookie control create cookie
-//     // Start session - session controller start session
-// })
+app.post('/api/signup', UserController.createUser, CookieController.setCookies, SessionController.startSession, (req, res) => {
+    if(res.locals.valid) res.redirect(301, '/profile');
+    else res.redirect(301, '/');
+});
+
 
 //Save the state containing SocialMedia & URL to db 
 app.post('/socialMedia', dbController.saveSocialLink, (req: Request, res: Response) => {
@@ -49,7 +58,7 @@ app.post('/socialMedia', dbController.saveSocialLink, (req: Request, res: Respon
 // })
 
 //getSocialMedias// send social_name & social_value
-app.get('/getAllSocials', dbController.getAllSocials, (req: Request, res: Response) => {
+app.get('/api/getAllSocials', dbController.getAllSocials, (req: Request, res: Response) => {
     return res.status(200).json(res.locals.socials);
 });
 
