@@ -26,10 +26,14 @@ const dbController = {
     },
     deleteSocialLink: async (req: Request, res: Response, next: NextFunction) => {
         try {
+            // const user_id = req.cookies.userId;
+            const user_id = 7; 
             const { social_name } = req.body;
-            const text = "SEARCH "
-
-            return next()
+            const text = "DELETE FROM socials WHERE social_name = $1 AND user_id = $2 RETURNING *"
+            const values = [social_name, user_id]
+            console.log('hi');
+            await pool.query(text, values);
+            return next();
         }catch {
         return next({
             log: "Express error handler caught error in dbController deleteSocialLink Middleware", 
