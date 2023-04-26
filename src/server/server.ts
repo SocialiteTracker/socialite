@@ -23,7 +23,7 @@ app.post('/api/login', UserController.authenticateUser, CookieController.setCook
 });
 
 app.post('/api/signup', UserController.createUser, CookieController.setCookies, SessionController.startSession, (req, res) => {
-    if(res.locals.valid) res.redirect(301, '/profile');
+    if(res.locals.valid) res.redirect(301, '/login');
     else res.redirect(301, '/');
 });
 
@@ -42,6 +42,27 @@ app.delete('/api/socialMedia', dbController.deleteSocialLink, (req: Request, res
 app.get('/api/getAllSocials', dbController.getAllSocials, (req: Request, res: Response) => {
     return res.status(200).json(res.locals.socials);
 });
+
+//get user data when barcode is scanned
+app.post('/api/getUserProfile',dbController.getUserProfile, (req: Request, res: Response) => {
+    return res.status(200).json(res.locals.socials);
+})
+
+//deployment
+app.use(express.static(path.join(__dirname, 'dist')));
+
+app.get('/bundle.js', (req, res) => {
+    const filePath = path.join(__dirname, '../..', 'dist', 'bundle.js');
+    res.set('Content-Type', 'application/javascript');
+    res.sendFile(filePath);
+});
+
+app.get('*', (req, res) => {
+    const filePath = path.join(__dirname, '../..','dist','index.html');
+    res.set('Content-Type', 'text/html');
+    res.sendFile(filePath);
+});
+
 
 // 404: 
 app.use('*', (req, res) => {

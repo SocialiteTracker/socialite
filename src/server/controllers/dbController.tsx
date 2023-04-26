@@ -66,6 +66,30 @@ const dbController = {
             }
         })
         }
+    },
+
+    getUserProfile : async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const user_id = req.body.userId;
+            
+            // parameterized query to avoid sql injection vulnerabilities
+            const text = 'SELECT social_name, social_value FROM SOCIALS WHERE user_id=$1';
+            const values = [user_id];
+// find the user in the user table
+            const response = await pool.query(text, values);
+            res.locals.socials = response.rows;
+            return next();
+            // use the user id to find all the 
+        }catch {
+            return next({
+            log: "Express error handler caught error in dbController getAllSocials Middleware", 
+            status: 500, 
+            message: {
+                err: 'Error saving entry to DB'
+            }
+        })
+        }
     }
+
 }
 module.exports = dbController;

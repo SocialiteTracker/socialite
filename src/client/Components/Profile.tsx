@@ -91,7 +91,7 @@ function Profile(){
     return (
         <div>
             <Header />
-            <ShowSocials socials={socials}  deleteSocialMedia={deleteSocialMedia}/>
+            <ShowSocials socials={socials}  deleteSocialMedia={deleteSocialMedia} presentation={false}/>
             <AddSocials socials={socials} addNewSocialMediaToState={addSocialMedia} />
         </div>
     )

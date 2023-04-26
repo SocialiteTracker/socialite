@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon ./src/server/server.ts & webpack-dev-server"
+    "dev": "nodemon ./src/server/server.ts & webpack-dev-server",
+    "build": "webpack",
+    "start": "nodemon ./src/server/server.ts"
+
   },
   "author": "",
   "license": "ISC",

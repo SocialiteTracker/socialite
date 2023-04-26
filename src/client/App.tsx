@@ -17,7 +17,7 @@ const App = () => {
           <Route path="/signup" component={Signup} />
           <Route path="/profile" component={Profile} />
           <Route path="/shareprofile" component={ShareProfile} />
-          <Route path="/userinfo/:username" component={UserInfo} />
+          <Route path="/userinfo/:userId" component={UserInfo} />
         </Switch>
       </BrowserRouter>
     </>
