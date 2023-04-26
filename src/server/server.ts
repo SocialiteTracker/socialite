@@ -26,17 +26,17 @@ app.listen(PORT, () => console.log(`server is listening on port ${PORT}`));
 //     }
 // })
 
-app.post('/login', UserController.authenticateUser, CookieController.setCookies, SessionController.startSession, (req, res) => {
+app.post('/api/login', UserController.authenticateUser, SessionController.startSession, (req, res) => {
     if(res.locals.valid === false) res.redirect(301, '/signup');
     else res.sendStatus(200);
 })
 
-// app.post('/signup', UserController.createUser, CookieController.setCookies, SessionController.startSession, (req, res) => {
-//     console.log('post to signup')
-//     // Create user - user controller create user
-//     // Set cookies - cookie control create cookie
-//     // Start session - session controller start session
-// })
+app.post('/api/signup', UserController.createUser, /*CookieController.setCookies, SessionController.startSession,*/ (req, res) => {
+    res.sendStatus(200);
+    // Create user - user controller create user
+    // Set cookies - cookie control create cookie
+    // Start session - session controller start session
+})
 
 // //Save the state containing SocialMedia & URL to db 
 // app.post('/socialMedia', SessionController.checkLogin, dbController.saveSocialLink, (req: Request, res: Response) => {
