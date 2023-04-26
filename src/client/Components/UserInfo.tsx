@@ -1,9 +1,10 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import { useParams } from "react-router-dom";
+import Cookies from 'js-cookie';
 import ShowSocials from './ShowSocials';
 
-import { socialState } from '../../types'
+import { socialState, dbResponse } from '../../types'
 
 function UserInfo(){
 
@@ -14,6 +15,17 @@ function UserInfo(){
     //use the result of this database call to invoke setSocials and update state
     //Giles
     function getUserLinks(){
+        fetch('/api/getAllSocials')
+        .then(data=>data.json())
+        .then(data=>{
+            const newSocialState = data.map((el: dbResponse)=>{
+                return {
+                    socialMedia: el.social_name,
+                    url: el.social_value
+                }
+            })
+            setSocials(newSocialState);
+        });
     }
 
     //when the component mounts invoke getUserLinks

@@ -1,7 +1,17 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+import { useEffect } from 'react';
+import Cookies from 'js-cookie';
 
 function Login(){
+
+    useEffect(()=>{
+        //check to see if user has a cookie
+        if(Cookies.get('userId')){
+            location.replace("/profile");
+        }
+    },[])
+
     return (
         <div>
             <p className="text-5xl text-center font-medium mt-4 sm:mb-6 mb-8"> Please Login Below </p>
