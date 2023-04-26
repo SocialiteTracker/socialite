@@ -47,10 +47,10 @@ app.post('/api/signup', UserController.createUser, CookieController.setCookies, 
 });
 
 
-// //Save the state containing SocialMedia & URL to db 
-// app.post('/socialMedia', SessionController.checkLogin, dbController.saveSocialLink, (req: Request, res: Response) => {
-//     return res.sendStatus(200);
-// })
+//Save the state containing SocialMedia & URL to db 
+app.post('/socialMedia', dbController.saveSocialLink, (req: Request, res: Response) => {
+    return res.sendStatus(200);
+})
 
 // //delete the link in the links table for user
 // app.delete('/socialMedia', SessionController.checkLogin, dbController.deleteSocialLink, (req: Request, res: Response) => {
@@ -73,5 +73,4 @@ app.use('*', (req, res) => {
 app.use((err, req, res, next) => {
     console.log(err);
     res.status(500).send({ error: err });
-    console.log('global error')
 });

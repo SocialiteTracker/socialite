@@ -3,16 +3,20 @@ import { Request, Response, NextFunction } from 'express';
 const pool = require('../config/connect');
 
 const dbController = {
-    saveSocialLink: async (req: Request, res: Response, next: NextFunction) =>  {
+    saveSocialLink: async (req: Request, res: Response, next: NextFunction) => {
         try {
-            pool.query
-            // first find the user_id in <user table in database>
-
-            //if user_id has the same linkName in <links table in database> update the link url in table
-
-            //if the linkName does not exist for the user_id then add linkName and link to links table
-            return next()
-        }catch{
+            // const user_id = req.cookies.userId;
+            const user_id = 7; 
+            console.log("req.body", req.body);
+            //uncomment once session middleware is added
+            const { social_name, social_value } = req.body;
+            //ON DUPLICATE KEY UPDATE clause is used to update the social_value if the row already exists.
+            const text = "INSERT INTO socials (social_name, social_value, user_id) VALUES ($1, $2, $3) ON CONFLICT (social_name) DO UPDATE SET social_value = EXCLUDED.social_value";
+            const values = [social_name, social_value, user_id]
+            console.log('hi');
+            await pool.query(text, values);
+            return next();
+        } catch{
             return next({
                 log: 'Express error handler caught error in dbController.saveSocialLink middleware',
                 status: 500,
@@ -22,10 +26,10 @@ const dbController = {
     },
     deleteSocialLink: async (req: Request, res: Response, next: NextFunction) => {
         try {
-            // find the user in user table
-                // use the user_id to check in links table if the requested deleted socialMedia linkName exists in table
-                // if it does exist delete the row in table
-                return next()
+            const { social_name } = req.body;
+            const text = "SEARCH "
+
+            return next()
         }catch {
         return next({
             log: "Express error handler caught error in dbController deleteSocialLink Middleware", 
