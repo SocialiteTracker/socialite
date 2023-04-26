@@ -5,6 +5,7 @@ app.use(express.json());
 import cookieParser from 'cookie-parser';
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
+const pool = require('./config/connect')
 
 import UserController from './controllers/userController';
 import SessionController from './controllers/sessionController';
@@ -12,10 +13,10 @@ import CookieController from './controllers/cookieController';
 const dbController = require("./controllers/dbController");
 
 import { Request, Response, NextFunction } from 'express';
+import { SessionRequest } from '../types';
+
 
 const PORT = 3000;
-
-app.listen(PORT, () => console.log(`server is listening on port ${PORT}`));
 
 //TODO - some issues with this 
 //react router doesn't make a get request to localhost:3000 but only to localhost:8080 (bc of proxy )
@@ -36,12 +37,14 @@ app.listen(PORT, () => console.log(`server is listening on port ${PORT}`));
 //     }
 // });
 
-app.post('/api/login', UserController.authenticateUser, CookieController.setCookies, SessionController.startSession, (req, res) => {
-    if(res.locals.authenticated) res.redirect(301, '/profile');
+app.post('/api/login', UserController.authenticateUser, SessionController.startSession, (req: any, res) => {
+    if(res.locals.authenticated) {
+        res.redirect(301, '/profile');
+    }
     else res.redirect(301, '/');
 });
 
-app.post('/api/signup', UserController.createUser, CookieController.setCookies, SessionController.startSession, (req, res) => {
+app.post('/api/signup', UserController.createUser, SessionController.startSession, (req, res) => {
     if(res.locals.valid) res.redirect(301, '/profile');
     else res.redirect(301, '/');
 });

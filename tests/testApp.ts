@@ -34,12 +34,12 @@ app.post('/login', UserController.authenticateUser, CookieController.setCookies,
 })
 
 // Signup
-app.get('/signup', (req, res) => {
+app.get('/signup', (req: Request, res) => {
     console.log('get to signup');
     // Serve signup page
 })
 
-app.post('/signup', UserController.createUser, CookieController.setCookies, SessionController.startSession, (req, res) => {
+app.post('/signup', UserController.createUser, CookieController.setCookies, SessionController.startSession, (req: Request, res) => {
     //app.post('/signup', (req, res) => {
     console.log('post to signup')
     // Create user - user controller create user
@@ -48,14 +48,14 @@ app.post('/signup', UserController.createUser, CookieController.setCookies, Sess
 })
 
 // 404: 
-app.use('*', (req, res) => {
+app.use('*', (req: Request, res) => {
     res.status(404).send('Not Found');
     console.log('404')
 });
 
 // Global error handler: Not sure how to do this in Typescript!
 // @ts-expect-error 
-app.use((err, req, res, next) => {
+app.use((err, req: Request, res, next) => {
     console.log(err);
     res.status(500).send({ error: err });
     console.log('global error')
