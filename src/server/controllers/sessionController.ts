@@ -1,5 +1,4 @@
 // require in session model
-
 const pool = require('../config/connect')
 
 import { Request, Response, NextFunction } from 'express';
@@ -7,7 +6,7 @@ import { Request, Response, NextFunction } from 'express';
 // TO DO HERE:
 // [x] Move redirect out of middleware and into '/' route
 // [ ] Pass cookie/user ID in res.locals
-class SessionController {
+const SessionController = {
     constructor() { }
 
     checkLogin = (req: Request, res: Response, next: NextFunction) => {
@@ -33,9 +32,12 @@ class SessionController {
         return next();
     }
 
-    startSession = (req: Request, res: Response, next: NextFunction) => {
-        console.log('in startSession middleware')
+    startSession: (req: Request, res: Response, next: NextFunction) => {
+        const findCookie = 'SELECT * FROM cookies WHERE user_id=$1';
+        const values = [res.locals.userId];
+        const response = await pool.query(findCookie, values);
+        const cookie = response.rows;
     }
 };
 
-export default new SessionController();
+export default SessionController;

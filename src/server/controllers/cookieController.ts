@@ -1,14 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
-const pool = require('../config/connect');
 
 const CookieController = {
 
-    setCookies: (req: Request, res: Response, next: NextFunction) => {
-        
-        //pull userID and use it to set a cookie 
+    setCookies: async (req: Request, res: Response, next: NextFunction) => {
 
-
-        next();
+        //if user authenticated give them a cookie 
+        if(res.locals.authenticated) res.cookie('userId',res.locals.userId); //set a session cookie
+        return next();
     }
 };
 

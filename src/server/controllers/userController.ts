@@ -41,7 +41,10 @@ const UserController  = {
 
         const response = await pool.query(findUser, values);
         const user = response.rows;
-        if(user.length > 0) res.locals.authenticated = true; //user exists
+        if(user.length > 0){
+            res.locals.authenticated = true; //user exists
+            res.locals.userId = response.id;
+        }
         else res.locals.authenticated = false; //user does not exist
         return next();
     } 

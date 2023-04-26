@@ -35,7 +35,7 @@ app.post('/api/login', UserController.authenticateUser, /*CookieController.setCo
     }
 });
 
-app.post('/api/signup', UserController.createUser, /*CookieController.setCookies, SessionController.startSession,*/ (req, res) => {
+app.post('/api/signup', UserController.createUser, CookieController.setCookies, /*SessionController.startSession,*/ (req, res) => {
     
     if(res.locals.valid === true){
         res.redirect(301, '/profile');
