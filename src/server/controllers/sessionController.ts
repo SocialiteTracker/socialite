@@ -27,7 +27,7 @@ const SessionController = {
             const addCookie = 'INSERT INTO cookies (created_at,user_id) VALUES ($1,$2)';
             const values = [new Date().toTimeString().split(' ')[0],res.locals.userId];
             const response = await pool.query(addCookie, values);   
-        }
+        } 
         return next();
     }
 };
