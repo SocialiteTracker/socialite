@@ -11,27 +11,61 @@ import { socialState, dbResponse } from '../../types'
 //to test the frontend
 //this will be removed and initial social state will be pulled from db on login auth
 const dummyData = [
-    {
-        socialMedia: "LinkedIn",
-        url: "https://www.linkedin.com/asd123dnaskj"
-    },
-    {
-        socialMedia: "Instagram",
-        url: "https://www.instagram.com/knakwjasd"
-    }
+    // {
+    //     socialMedia: "LinkedIn",
+    //     url: "https://www.linkedin.com/asd123dnaskj"
+    // },
+    // {
+    //     socialMedia: "Instagram",
+    //     url: "https://www.instagram.com/knakwjasd"
+    // }
 ]
 
 function Profile(){
 
     //main state array keeping track links user has added
-    const [socials,setSocials] = useState<socialState[]>(dummyData);
+    const [socials,setSocials] = useState<socialState[]>([]);
 
     //updates current state to show new social media
     //adds new social media to database
-    function addSocialMedia(newState: socialState[]){
-        setSocials(newState);
+    function addSocialMedia(newSocialsState: socialState[],socialMedia: string,url: string){
+
+        //remove duplicates 
+        setSocials(newSocialsState);
         //TODO - add new social media to database
-        //TODO - generate new QR code
+        fetch('/api/socialMedia', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                social_name: socialMedia,
+                social_value: url
+            })
+        });
+    }
+
+    function deleteSocialMedia(socialMedia: string){
+
+        //update state
+        const newSocialsState = socials.slice(0); //make shallow copy of state
+        newSocialsState.forEach((el,index)=>{ //slice out element with matching socialMedia 
+            if(el.socialMedia === socialMedia){
+                newSocialsState.splice(index,1);
+            }
+        });
+        setSocials(newSocialsState);
+
+        //make db call
+        fetch('/api/socialMedia', {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                social_name: socialMedia
+            })
+        });
     }
 
     useEffect(()=>{
@@ -57,7 +91,7 @@ function Profile(){
     return (
         <div>
             <Header />
-            <ShowSocials socials={socials}/>
+            <ShowSocials socials={socials}  deleteSocialMedia={deleteSocialMedia}/>
             <AddSocials socials={socials} addNewSocialMediaToState={addSocialMedia} />
         </div>
     )
