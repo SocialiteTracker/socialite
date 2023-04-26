@@ -41,7 +41,7 @@ const dbController = {
             //uncomment once session middleware added
             // const { user_id } = req.body;
             
-            const user_id = 1;
+            const user_id = 7;
             // parameterized query to avoid sql injection vulnerabilities
             const text = 'SELECT social_name, social_value FROM SOCIALS WHERE user_id=$1';
             const values = [user_id];
