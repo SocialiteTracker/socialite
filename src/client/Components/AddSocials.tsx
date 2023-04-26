@@ -5,7 +5,7 @@ import { socialState } from '../../types'
 
 interface addSocialsProps {
     socials: socialState[],
-    addNewSocialMediaToState: (newSocialsState: socialState[])=>void
+    addNewSocialMediaToState: (newSocialsState: socialState[], socialMedia: string, url: string)=>void
 }
 
 function AddSocials(props: addSocialsProps){
@@ -22,10 +22,24 @@ function AddSocials(props: addSocialsProps){
             <div className="flex justify-center"> 
                 <button type="submit" className="bg-[#1f61a7] text-white text-xl mt-3 mb-7 py-5 hover:opacity-60 cursor-pointer sm:w-[15%] w-[30%] rounded-md" onClick={()=> {
                     if(newSocialMedia.length > 0 && newUrl.length > 0){
+
+                        //Check for duplicates - if they exist exist 
+                        const newSocialsState = props.socials.slice();
+                        let duplicates = false;
+                        newSocialsState.forEach((el)=>{
+                            if(el.socialMedia === newSocialMedia) el.url = newUrl;
+                            duplicates = true;
+                        });
+                        if(duplicates){
+                            props.addNewSocialMediaToState([...newSocialsState],newSocialMedia,newUrl);
+                            return;
+                        }
+
+                        //duplicate does not exist
                         props.addNewSocialMediaToState([...props.socials,{
                             socialMedia: newSocialMedia,
                             url: newUrl
-                        }])
+                        }],newSocialMedia,newUrl);
                     }
                     }
                 }>Add Social</button>
