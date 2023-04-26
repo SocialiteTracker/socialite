@@ -49,10 +49,7 @@ function Profile(){
                     url: el.social_value
                 }
             })
-
-
-            console.log(data);
-            setSocials(data);
+            setSocials(newSocialState);
         });
     },[])
     
