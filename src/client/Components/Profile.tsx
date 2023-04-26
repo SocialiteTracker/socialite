@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import AddSocials from './AddSocials'
 import ShowSocials from './ShowSocials';
 import Header from './Header';
-import { socialState } from '../../types'
+import { socialState, dbResponse } from '../../types'
 
 //Giles
 //to test the frontend
@@ -33,11 +33,24 @@ function Profile(){
         //TODO - generate new QR code
     }
 
+    // useEffect(()=>{
+    //     fetch('/api/home');
+    // },[])
+
     useEffect(()=>{
         console.log("getting socialMedia")
-        fetch('/getAllSocials')
+        fetch('/api/getAllSocials')
         .then(data=>data.json())
         .then(data=>{
+
+            const newSocialState = data.map((el: dbResponse)=>{
+                return {
+                    socialMedia: el.social_name,
+                    url: el.social_value
+                }
+            })
+
+
             console.log(data);
             setSocials(data);
         });

@@ -19,36 +19,25 @@ app.listen(PORT, () => console.log(`server is listening on port ${PORT}`));
 
 // // Root - Checks session and directs to profile if extant 
 // // By default go to login, but if session redirect to profile
-// app.get('/', SessionController.checkLogin, (req: Request, res: Response) => {
-//     console.log('get req to root');
-
-//     if (res.locals.isCookie === true) {
-//         res.redirect(301, '/profile');
-//     }
-// })
-
-app.post('/api/login', UserController.authenticateUser, /*CookieController.setCookies, SessionController.startSession,*/ (req, res) => {
-    console.log("authenticated: ",res.locals.authenticated)
-    if(res.locals.authenticated === true) res.redirect(301, '/profile');
+//TODO - maybe we can check to see if session exists here but do redirect on frontend?
+app.get('/api/home', SessionController.checkLogin, (req: Request, res: Response) => {
+    console.log("requesting endpoint");
+    if(res.locals.authenticated) res.redirect(301, '/profile');
     else{
+        console.log('redirecting')
         res.redirect(301, '/');
     }
 });
 
-app.post('/api/signup', UserController.createUser, CookieController.setCookies, /*SessionController.startSession,*/ (req, res) => {
-    
-    if(res.locals.valid === true){
-        res.redirect(301, '/profile');
-    }
-    else{
-        res.redirect(301, '/');
-    }
+app.post('/api/login', UserController.authenticateUser, CookieController.setCookies, SessionController.startSession, (req, res) => {
+    if(res.locals.authenticated) res.redirect(301, '/profile');
+    else res.redirect(301, '/');
+});
 
-    // Create user - user controller create user
-    // Set cookies - cookie control create cookie
-    // Start session - session controller start session
-})
-
+app.post('/api/signup', UserController.createUser, CookieController.setCookies, SessionController.startSession, (req, res) => {
+    if(res.locals.valid) res.redirect(301, '/profile');
+    else res.redirect(301, '/');
+});
 
 
 // //Save the state containing SocialMedia & URL to db 
@@ -62,7 +51,7 @@ app.post('/api/signup', UserController.createUser, CookieController.setCookies, 
 // })
 
 //getSocialMedias// send social_name & social_value
-app.get('/getAllSocials', dbController.getAllSocials, (req: Request, res: Response) => {
+app.get('/api/getAllSocials', dbController.getAllSocials, (req: Request, res: Response) => {
     return res.status(200).json(res.locals.socials);
 });
 

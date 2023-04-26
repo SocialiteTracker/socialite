@@ -34,7 +34,6 @@ const UserController  = {
 
         const username = req.body.username;
         const password = req.body.password;
-        console.log("req body", req.body);
 
         const findUser = 'SELECT * FROM users WHERE username = $1 AND password = $2';
         const values = [username,password];
@@ -43,7 +42,7 @@ const UserController  = {
         const user = response.rows;
         if(user.length > 0){
             res.locals.authenticated = true; //user exists
-            res.locals.userId = response.id;
+            res.locals.userId = user[0].id;
         }
         else res.locals.authenticated = false; //user does not exist
         return next();
