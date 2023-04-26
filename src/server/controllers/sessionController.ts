@@ -7,9 +7,16 @@ import { Request, Response, NextFunction } from 'express';
 // [x] Move redirect out of middleware and into '/' route
 // [ ] Pass cookie/user ID in res.locals
 const SessionController = {
-    constructor() { }
 
-    checkLogin = (req: Request, res: Response, next: NextFunction) => {
+    checkLogin: (req: Request, res: Response, next: NextFunction) => {
+
+        // implement later 
+        // const findCookie = 'SELECT * FROM cookies WHERE user_id=$1';
+        // const values = [res.locals.userId];
+        // const response = await pool.query(findCookie, values);
+        // const cookie = response.rows;
+
+
         console.log('in checkLogin middleware');
 
         // Create variable for cookie held in request:
@@ -30,13 +37,13 @@ const SessionController = {
                 
             })
         return next();
-    }
+    },
 
-    startSession: (req: Request, res: Response, next: NextFunction) => {
-        const findCookie = 'SELECT * FROM cookies WHERE user_id=$1';
-        const values = [res.locals.userId];
-        const response = await pool.query(findCookie, values);
-        const cookie = response.rows;
+    startSession: async (req: Request, res: Response, next: NextFunction) => {
+
+        const addCookie = 'INSERT INTO cookies (created_at,user_id) VALUES ($1,$2)';
+        const values = [new Date().toString(),res.locals.userId];
+        const response = await pool.query(addCookie, values);   
     }
 };
 
