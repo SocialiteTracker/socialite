@@ -7,11 +7,9 @@ import { Request, Response, NextFunction } from 'express';
 const UserController  = {
 
     createUser: async (req: Request, res: Response, next: NextFunction) => {
-        
+
         const username = req.body.username;
         const password = req.body.password;
-
-        console.log(username,password);
 
         //Check if user already exists in database 
         const findUser = 'SELECT * FROM users WHERE username=$1';
@@ -19,25 +17,24 @@ const UserController  = {
         const response = await pool.query(findUser, valuesFindUser);
         const user = response.rows;
 
-        console.log(user);
-        
-        
         if(user.length > 0){ //username already exists - do not add to database
+            res.locals.valid = false;
             return next();
         }
         else{ //user does not exist - add new user to database
             const addUser = 'INSERT INTO Users (username,password) VALUES ($1,$2)';
             const valuesAddUser = [username,password];
             await pool.query(addUser, valuesAddUser);
+            res.locals.valid = true;
             return next();
         }
-
     },
 
     authenticateUser: async (req: Request, res: Response, next: NextFunction) => {
 
         const username = req.body.username;
         const password = req.body.password;
+        console.log("req body", req.body);
 
         const findUser = 'SELECT * FROM users WHERE username = $1 AND password = $2';
         const values = [username,password];

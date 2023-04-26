@@ -4,6 +4,7 @@ const app = express();
 app.use(express.json());
 import cookieParser from 'cookie-parser';
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 
 import UserController from './controllers/userController';
 import SessionController from './controllers/sessionController';
@@ -28,12 +29,21 @@ app.listen(PORT, () => console.log(`server is listening on port ${PORT}`));
 
 app.post('/api/login', UserController.authenticateUser, /*SessionController.startSession,*/ (req, res) => {
     console.log("authenticated: ",res.locals.authenticated)
-    if(res.locals.authenticated === false) res.redirect(301, '/signup');
-    else res.sendStatus(200);
+    if(res.locals.authenticated === true) res.redirect(301, '/profile');
+    else{
+        res.redirect(301, '/');
+    }
 });
 
 app.post('/api/signup', UserController.createUser, /*CookieController.setCookies, SessionController.startSession,*/ (req, res) => {
-    res.sendStatus(200);
+    
+    if(res.locals.valid === true){
+        res.redirect(301, '/profile');
+    }
+    else{
+        res.redirect(301, '/');
+    }
+
     // Create user - user controller create user
     // Set cookies - cookie control create cookie
     // Start session - session controller start session
