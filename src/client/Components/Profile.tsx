@@ -35,7 +35,6 @@ function Profile(){
     }
 
     useEffect(()=>{
-
         //check to see if user has a cookie
         if(!Cookies.get('userId')){
             location.replace("/");
@@ -44,7 +43,6 @@ function Profile(){
             fetch('/api/getAllSocials')
             .then(data=>data.json())
             .then(data=>{
-    
                 const newSocialState = data.map((el: dbResponse)=>{
                     return {
                         socialMedia: el.social_name,
