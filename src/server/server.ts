@@ -58,7 +58,7 @@ app.delete('/socialMedia', SessionController.checkLogin, dbController.deleteSoci
 })
 
 //getSocialMedias
-app.get('/socialMedia', SessionController.checkLogin, dbController.getSocialMedias, (req: Request, res: Response) => {
+app.get('/socialMedia', SessionController.checkLogin, dbController.getSocialMedia, (req: Request, res: Response) => {
     return res.sendStatus(200);
 })
 
