@@ -1,12 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
+const pool = require('../config/connect');
 
-class CookieController {
-    constructor() { }
+const CookieController = {
 
-    setCookies = (req: Request, res: Response, next: NextFunction) => {
-        console.log('in setCookies middleware');
+    setCookies: (req: Request, res: Response, next: NextFunction) => {
+        
+        //pull userID and use it to set a cookie 
+
+
         next();
     }
 };
 
-export default new CookieController();
+export default CookieController;

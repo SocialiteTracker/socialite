@@ -27,7 +27,7 @@ app.listen(PORT, () => console.log(`server is listening on port ${PORT}`));
 //     }
 // })
 
-app.post('/api/login', UserController.authenticateUser, /*SessionController.startSession,*/ (req, res) => {
+app.post('/api/login', UserController.authenticateUser, /*CookieController.setCookies, SessionController.startSession,*/ (req, res) => {
     console.log("authenticated: ",res.locals.authenticated)
     if(res.locals.authenticated === true) res.redirect(301, '/profile');
     else{
