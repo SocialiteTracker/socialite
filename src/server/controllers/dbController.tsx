@@ -68,4 +68,4 @@ const dbController = {
         }
     }
 }
-module.exports = dbController;
+export default dbController;

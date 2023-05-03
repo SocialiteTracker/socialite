@@ -1,6 +1,7 @@
 // require in session model
 const pool = require('../config/connect')
 
+
 import { Request, Response, NextFunction } from 'express';
 
 const SessionController = {

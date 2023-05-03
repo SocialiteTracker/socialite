@@ -20,8 +20,6 @@ const UserController = {
             })
         })
 
-        console.log(hashedPw);
-
         //Check if user already exists in database 
         const findUser = 'SELECT * FROM users WHERE username=$1';
         const valuesFindUser = [username];

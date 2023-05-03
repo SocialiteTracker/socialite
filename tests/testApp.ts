@@ -6,10 +6,10 @@ import cookieParser from 'cookie-parser';
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
-import UserController from './controllers/userController';
-import SessionController from './controllers/sessionController';
-import CookieController from './controllers/cookieController';
-const dbController = require("./controllers/dbController");
+import UserController from '../src/server/controllers/userController';
+import SessionController from '../src/server/controllers/sessionController';
+import CookieController from '../src/server/controllers/cookieController';
+const dbController = require("../src/server/controllers/dbController");
 
 import { Request, Response, NextFunction } from 'express';
 
@@ -55,3 +55,5 @@ app.use((err, req, res, next) => {
     console.log(err);
     res.status(500).send({ error: err });
 });
+
+module.exports = app;
